@@ -1,4 +1,4 @@
-# E-Vehicle Share Platform  
+# E-Vehicle Share using Bootstrap
 A Django-based multi-role electric vehicle sharing system
 
 ## Overview
