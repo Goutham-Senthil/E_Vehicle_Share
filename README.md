@@ -1,4 +1,4 @@
-# E-Vehicle Share Platform  
+# E-Vehicle Share using Bootstrap
 A Django-based multi-role electric vehicle sharing system
 
 ## Overview
@@ -79,18 +79,25 @@ e_vehicle_share/
 ## Setup Instructions
 
 ### 1. Clone the repository
+```bash
 git clone https://github.com/Goutham-Senthil/e_vehicle_share
 cd e_vehicle_share
-
+```
 ### 2. Create a virtual environment
+```bash
 python -m venv venv
+```
 
 ### 3. Activate the environment
-Windows:
-venv\Scripts\activate
 
+Windows:
+```bash
+venv\Scripts\activate
+```
 Mac/Linux:
+```bash
 source venv/bin/activate
+```
 
 ### 4. Install dependencies
 
@@ -98,11 +105,15 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 ### 5. Apply migrations
+```bash
 python manage.py migrate
-
+```
 ### 6. Start the development server
+```bash
 python manage.py runserver
-
+```
 App will run on:
+```bash
 http://127.0.0.1:8000/
+```
 
