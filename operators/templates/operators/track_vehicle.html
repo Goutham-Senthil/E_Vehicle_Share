@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Vehicles</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Roboto');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .navbar-mainbg {
+            background-color: #ff0000;
+            padding: 0;
+        }
+
+        .navbar-logo {
+            padding: 15px;
+            color: #fff;
+        }
+
+        #map {
+            height: 500px;
+            width: 100%;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            margin-top: 40px;
+        }
+
+        .table-container {
+            margin-top: 40px;
+        }
+
+        h2 {
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        .table-container table {
+            width: 100%;
+            max-width: 100%;
+            margin: auto;
+        }
+
+        .navbar-nav .nav-link {
+            color: #fff !important;
+            font-weight: bold;
+        }
+
+        .nav-item .nav-link:hover {
+            color: #ddd !important;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-custom navbar-mainbg">
+        <a class="navbar-brand navbar-logo" href="{% url 'operator_dashboard' %}">Electric Goose (Operator)</a>
+        <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-bars text-white"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'track_vehicle' %}"><i class="fas fa-map-marker-alt"></i> Track Vehicle</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'move_vehicle' %}"><i class="fas fa-truck"></i> Move Vehicle</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'maintenance_record' %}"><i class="fas fa-tools"></i> Maintenance Record</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'charge_record' %}"><i class="fas fa-battery-full"></i> Charge Record</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h2>Track Vehicles</h2>
+        <div id="map"></div>
+
+        <!-- Table showing vehicle details -->
+        <div class="table-container">
+            <h2>Vehicle Details</h2>
+            <table class="table table-bordered table-hover table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Vehicle ID</th>
+                        <th>Vehicle Name</th>
+                        <th>Vehicle Type</th>
+                        <th>Vehicle Model</th>
+                        <th>Longitude</th>
+                        <th>Latitude</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for vehicle in vehicles %}
+                    <tr>
+                        <td>{{ vehicle.vehicle_id }}</td>
+                        <td>{{ vehicle.vehicle_name }}</td>
+                        <td>{{ vehicle.vehicle_type }}</td>
+                        <td>{{ vehicle.vehicle_model }}</td>
+                        <td>{{ vehicle.longitude }}</td>
+                        <td>{{ vehicle.latitude }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            // Initialize the map
+            var map = L.map('map').setView([55.8642, -4.2518], 13); // Centered around Glasgow
+
+            // Add OpenStreetMap tiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            // Vehicle data from backend (passed through Django context)
+            var vehicles = {{ vehicles_json | safe }};
+
+            // Add markers for each vehicle
+            vehicles.forEach(function (vehicle) {
+                var marker = L.marker([vehicle.latitude, vehicle.longitude]).addTo(map);
+                var popupContent = `<strong>${vehicle.vehicle_name} (${vehicle.vehicle_type})</strong><br>` +
+                    `Battery: ${vehicle.battery}%<br>`;
+                if (vehicle.is_in_use) {
+                    popupContent += `Currently used by: ${vehicle.user_name}`;
+                } else {
+                    popupContent += `Available for use`;
+                }
+                marker.bindPopup(popupContent);
+            });
+        });
+    </script>
+</body>
+
+</html>

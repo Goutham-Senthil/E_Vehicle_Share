@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElectricGoose - About Us</title>
+    <!-- Include Bootstrap CSS from CDN for faster prototyping -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+        body {
+            margin: 0;
+            overflow-x: hidden;
+            font-family: Verdana;
+        }
+
+        .navbar-default {
+            background-color: #455A64;
+            border: none;
+            box-shadow: none;
+            padding: 10px;
+        }
+
+        .navbar-default .navbar-brand {
+            color: #ffffff;
+            font-size: 20px;
+        }
+
+        .navbar-default .navbar-brand:hover,
+        .navbar-default .navbar-brand:focus {
+            color: #ffffff;
+        }
+
+        .navbar-default .navbar-nav>li>a {
+            color: #ffffff;
+        }
+
+        .navbar-default .navbar-nav>li>a:hover,
+        .navbar-default .navbar-nav>li>a:focus {
+            color: #ffffff;
+        }
+
+        .about-header {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://www.topgear.com/sites/default/files/2022/03/TopGear%20-%20Tesla%20Model%20Y%20-%20003.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            color: #ffffff;
+            text-align: center;
+            padding-top: 100px;
+            margin-top: -20px;
+        }
+
+        .about-header h1 {
+            font-size: 50px;
+            font-weight: 700;
+        }
+
+        .about-header p {
+            font-size: 20px;
+        }
+
+        .about-content {
+            padding: 60px 15px;
+        }
+
+        .about-section {
+            margin-bottom: 40px;
+        }
+
+        .about-section h2 {
+            color: #FF4000;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .about-section p {
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .footer {
+            background-color: #455A64;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{% url 'landing_page' %}">ElectricGoose</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'about_us' %}">About</a></li>
+                    <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    <li><a href="{% url 'register' %}"><span class="glyphicon glyphicon-user"></span> Register</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- About Header Section -->
+    <div class="about-header">
+        <h1>About ElectricGoose</h1>
+        <p>Our Mission to Redefine Eco-Friendly Mobility</p>
+    </div>
+
+    <!-- About Content Section -->
+    <div class="container about-content">
+        <div class="about-section">
+            <h2>Who We Are</h2>
+            <p>ElectricGoose is dedicated to providing an efficient, eco-friendly, and responsive electric vehicle sharing experience. Inspired by the graceful glide of a goose, our mission is to empower urban mobility through sustainability and convenience. We believe in giving everyone access to clean transportation options that blend innovation with simplicity, making urban commuting a smoother and more enjoyable experience.</p>
+        </div>
+
+        <div class="about-section">
+            <h2>Our Vision</h2>
+            <p>We envision a world where shared electric mobility is the standard for urban transit, reducing emissions and making cities cleaner, quieter, and more enjoyable to live in. ElectricGoose is committed to contributing to a greener future, one ride at a time. With advanced vehicle technology, a commitment to sustainability, and a focus on customer experience, we're redefining how people move.</p>
+        </div>
+
+        <div class="about-section">
+            <h2>Why Choose Us?</h2>
+            <p>At ElectricGoose, we understand the value of your time and the importance of preserving our planet. Our e-vehicles are meticulously maintained to deliver a comfortable and reliable ride, while our responsive technology ensures seamless booking and easy access to vehicles wherever you are. From eco-conscious travelers to everyday commuters, ElectricGoose is your partner in embracing a more sustainable lifestyle without compromising on comfort or efficiency.</p>
+        </div>
+
+        <div class="about-section">
+            <h2>Join the Electric Revolution</h2>
+            <p>Ready to glide into the future of mobility? At ElectricGoose, we're on a mission to redefine urban travel, and we'd love for you to join us. By choosing ElectricGoose, you're not just booking a ride; you're supporting a movement toward greener, smarter cities. Together, we can create a community of eco-friendly commuters dedicated to making a difference—one journey at a time.</p>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="container">
+            <p><strong>GOOSE W.L.L</strong></p>
+            <p>P.O. Box: 31839, Glasgow – UK</p>
+            <p>Tel. +44 1122334455, Mob: +44 7788991010, +44 66771199, +44 3344556677</p>
+            <p>Fax: +44 1122334455, Email: buisness@goose.com, Website: <a href="http://www.electricgoose.com" style="color: #ffffff;">www.electricgoose.com</a></p>
+        </div>
+    </footer>
+
+    <!-- Include jQuery and Bootstrap JavaScript from CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
+

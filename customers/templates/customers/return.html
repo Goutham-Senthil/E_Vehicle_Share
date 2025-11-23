@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Return or Report Vehicle</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Roboto');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .navbar-mainbg {
+            background-color: #5161ce;
+            padding: 0px;
+        }
+
+        .navbar-logo {
+            padding: 15px;
+            color: #fff;
+        }
+
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-custom navbar-mainbg">
+        <a class="navbar-brand navbar-logo" href="{% url 'customer_dashboard' %}">Electric Goose</a>
+        <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <i class="fas fa-bars text-white"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'rent_vehicle' %}"><i class="fas fa-car"></i>Rent</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'return_vehicle' %}"><i class="fas fa-undo"></i>Return/Report</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'payments' %}"><i class="fas fa-wallet"></i>Payment</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'transaction_history' %}"><i class="fas fa-history"></i>Transaction History</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Return or Report Vehicle Section -->
+    <div class="container">
+        <h2>Return or Report a Vehicle</h2>
+
+        {% if reservations %}
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="reservation_id">Select Vehicle:</label>
+                <select class="form-control" id="reservation_id" name="reservation_id" required>
+                    <option value="">Select a Reservation</option>
+                    {% for reservation in reservations %}
+                    <option value="{{ reservation.reservation_id }}">
+                        {{ reservation.vehicle.vehicle_name }} ({{ reservation.vehicle.vehicle_model }})
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="action_type">Select Action:</label>
+                <select class="form-control" id="action_type" name="action_type" required>
+                    <option value="">Choose Action</option>
+                    <option value="return">Return Vehicle</option>
+                    <option value="report">Report Issue</option>
+                </select>
+            </div>
+
+            <!-- Report Issue Section -->
+            <div id="report_section" style="display: none;">
+                <h4 class="mt-4">Report Vehicle Issue</h4>
+                <div class="form-group">
+                    <label for="issue_type">Select Issue:</label>
+                    <select class="form-control" id="issue_type" name="issue_type">
+                        <option value="">Choose an Issue</option>
+                        <option value="battery">Battery Issue</option>
+                        <option value="engine">Engine Issue</option>
+                        <option value="brake">Brake Issue</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="comments">Comments:</label>
+                    <textarea class="form-control" id="comments" name="comments" rows="3"></textarea>
+                </div>
+            </div>
+
+            <h4 class="mt-4">Mark Drop-off Location</h4>
+            <div id="map" class="mb-4"></div>
+
+            <input type="hidden" id="latitude" name="latitude">
+            <input type="hidden" id="longitude" name="longitude">
+
+            <button type="submit" class="btn btn-success mt-3">Confirm</button>
+        </form>
+        {% else %}
+        <p>No active reservations available.</p>
+        {% endif %}
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            // Show/hide report section based on action type selection
+            $('#action_type').change(function () {
+                if ($(this).val() === 'report') {
+                    $('#report_section').show();
+                } else {
+                    $('#report_section').hide();
+                }
+            });
+
+            // Initialize the map
+            var map = L.map('map').setView([55.8642, -4.2518], 13); // Default centered around Glasgow
+
+            // Add OpenStreetMap tiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            // Variable to store the marker
+            var returnMarker;
+
+            // Event listener for map clicks
+            map.on('click', function (e) {
+                var lat = e.latlng.lat;
+                var lng = e.latlng.lng;
+
+                // Update latitude and longitude hidden fields
+                $('#latitude').val(lat);
+                $('#longitude').val(lng);
+
+                // Add or update marker
+                if (returnMarker) {
+                    returnMarker.setLatLng(e.latlng);
+                } else {
+                    returnMarker = L.marker(e.latlng).addTo(map);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

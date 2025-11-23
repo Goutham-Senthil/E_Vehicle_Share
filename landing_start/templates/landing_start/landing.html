@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElectricGoose - Landing Page</title>
+    <!-- Include Bootstrap CSS from CDN for faster prototyping -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+        /******************************
+        Flexbox Layout & General Styling
+        *******************************/
+        body {
+            overflow: auto; /* Changed to auto to allow scrolling */
+            margin: 0;
+        }
+
+        .container-fluid.main {
+            position: relative;
+            padding: 0;
+            min-height: calc(100vh - 100px); /* Adjusted to leave space for the footer */
+        }
+
+        .navbar-default {
+            background-image: none;
+            background-color: transparent;
+            border-radius: 0px;
+            border: 0;
+            box-shadow: none;
+            padding: 10px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+        }
+
+        .navbar-default .navbar-brand {
+            font-family: Verdana;
+            color: #ffffff;
+            font-size: 20px;
+        }
+
+        .navbar-default .navbar-brand:hover,
+        .navbar-default .navbar-brand:focus {
+            color: #ffffff;
+            background-color: transparent;
+        }
+
+        .navbar-default .navbar-nav>li>a {
+            color: #ffffff;
+        }
+
+        .navbar-default .navbar-nav>li>a:hover,
+        .navbar-default .navbar-nav>li>a:focus {
+            color: #ffffff;
+            background-color: transparent;
+        }
+
+        .navbar-default .navbar-toggle {
+            border-color: transparent;
+        }
+
+        .navbar-default .navbar-toggle .icon-bar {
+            background-color: #ffffff;
+        }
+
+        .navbar-right {
+            margin-right: 20px;
+        }
+
+        .carousel .background {
+            background-position: center center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: calc(100vh - 100px); /* Adjusted height to accommodate footer */
+        }
+
+        @media (max-width: 991px) {
+            .carousel .background {
+                background-size: cover;
+            }
+        }
+
+        .carousel .background.a {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://car-images.bauersecure.com/wp-images/3033/021_tesla_model_3.jpg");
+        }
+
+        .carousel .background.b {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://www.motortrend.com/uploads/2024/01/1-2024-Tesla-Model-S-front-view.jpg?w=768&width=768&q=75&format=webp");
+        }
+
+        .carousel .background.c {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://www.topgear.com/sites/default/files/2022/03/TopGear%20-%20Tesla%20Model%20Y%20-%20003.jpg");
+        }
+
+        .carousel-fade .carousel-inner .item {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            /* Increased the transition time for a smoother fade effect */
+        }
+
+        .carousel-fade .carousel-inner .active {
+            opacity: 1;
+        }
+
+        /* CSS Hack to make transitions smooth across browsers */
+        @media all and (transform-3d),
+        (-webkit-transform-3d) {
+
+            .carousel-fade .carousel-inner>.item.next,
+            .carousel-fade .carousel-inner>.item.active.right {
+                opacity: 0;
+                transform: translate3d(0, 0, 0);
+            }
+
+            .carousel-fade .carousel-inner>.item.prev,
+            .carousel-fade .carousel-inner>.item.active.left {
+                opacity: 0;
+                transform: translate3d(0, 0, 0);
+            }
+
+            .carousel-fade .carousel-inner>.item.next.left,
+            .carousel-fade .carousel-inner>.item.prev.right,
+            .carousel-fade .carousel-inner>.item.active {
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
+            }
+        }
+
+        /******************************
+        Cover Text Styling
+        *******************************/
+        .covertext {
+            position: absolute;
+            top: 200px;
+            left: 0px;
+            right: 0px;
+            text-align: center;
+        }
+
+        .title {
+            font-family: Verdana;
+            font-weight: 600;
+            font-size: 60px;
+            color: #ffffff;
+        }
+
+        .subtitle {
+            font-family: Verdana;
+            font-size: 23px;
+            color: #ffffff;
+        }
+
+        .explore {
+            margin-top: 20px;
+        }
+
+        .explore .btn-lg,
+        .explore .btn-lg:hover {
+            border-radius: 30px;
+            padding: 15px 25px;
+            font-size: 22px;
+            background-color: #FF4000;
+            border-color: #FF4000;
+            color: #ffffff;
+        }
+
+        .btn,
+        .btn:hover {
+            border-radius: 0px;
+            background-color: #FF4000;
+            border-color: #FF4000;
+            color: #ffffff;
+            margin-bottom: 20px;
+            box-shadow: none;
+            outline: none;
+        }
+
+        /******************************
+        Footer Styling
+        *******************************/
+        .footer {
+            background-color: #455A64; /* Dark grey-blue color */
+            color: #ffffff;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #607D8B; /* Grey-blue color */
+            color: #ffffff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .scroll-top:hover {
+            background-color: #455A64;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Main Container -->
+    <div class="container-fluid main">
+
+        <!-- Navigation Bar -->
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{% url 'landing_page' %}">ElectricGoose</a>
+                </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav">
+                        <li><a href="{% url 'about_us' %}">About</a></li>
+                        <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                        <li><a href="{% url 'contact' %}"><span class="glyphicon glyphicon-user"></span> Register</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Carousel Section -->
+        <div id="myCarousel" class="carousel carousel-fade slide" data-ride="carousel" data-interval="5000">
+            <!-- Increased data-interval to 5000ms (5 seconds) for more display time per image -->
+            <div class="carousel-inner" role="listbox">
+                <div class="item active background a"></div>
+                <div class="item background b"></div>
+                <div class="item background c"></div>
+            </div>
+        </div>
+
+        <!-- Cover Text Section -->
+        <div class="covertext">
+            <div class="col-lg-10" style="float:none; margin:0 auto;">
+                <h1 class="title">ElectricGoose</h1>
+                <h3 class="subtitle">Glide into the future of eco-friendly travel </h3>
+            </div>
+            <div class="col-xs-12 explore">
+                <a href="{% url 'register' %}"><button type="button" class="btn btn-lg explorebtn">JOIN US</button></a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="container">
+            <p><strong>GOOSE W.L.L</strong></p>
+            <p>P.O. Box: 31839, Glasgow – UK</p>
+            <p>Tel. +44 1122334455, Mob: +44 7788991010, +44 66771199, +44 3344556677</p>
+            <p>Fax: +44 1122334455, Email: buisness@goose.com, Website: <a href="http://www.electricgoose.com" style="color: #ffffff;">www.electricgoose.com</a></p>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <div class="scroll-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">
+        <span class="glyphicon glyphicon-arrow-up"></span>
+    </div>
+
+    <!-- Include jQuery and Bootstrap JavaScript from CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- Carousel JavaScript -->
+    <script>
+        /* When your mouse cursor enters the background, the fading won't pause and keeps playing */
+        $('.carousel').carousel({
+            pause: "false" /* Change to true to make it paused when your mouse cursor enters the background */
+        });
+    </script>
+</body>
+
+</html>

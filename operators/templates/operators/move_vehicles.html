@@ -1,0 +1,221 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Move Vehicles</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Roboto');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .navbar-mainbg {
+            background-color: #ff0000; /* Changed to red */
+            padding: 0px;
+        }
+
+        .navbar-logo {
+            padding: 15px;
+            color: #fff;
+        }
+
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-custom navbar-mainbg">
+        <a class="navbar-brand navbar-logo" href="{% url 'operator_dashboard' %}">Electric Goose (Operator)</a>
+        <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-bars text-white"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href=""><i class="fas fa-map-marker-alt"></i>Track</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'move_vehicle' %}"><i class="fas fa-truck"></i>Move</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2>Move a Vehicle</h2>
+
+        {% if vehicles %}
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="vehicle_id">Select Vehicle:</label>
+                <select class="form-control" id="vehicle_id" name="vehicle_id" required>
+                    <option value="">Select a Vehicle</option>
+                    {% for vehicle in vehicles %}
+                    <option value="{{ vehicle.vehicle_id }}">{{ vehicle.vehicle_name }} ({{ vehicle.vehicle_type }}) - Battery: {{ vehicle.battery }}%</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <h4 class="mt-4">Mark New Location</h4>
+            <div id="map" class="mb-4"></div>
+
+            <input type="hidden" id="new_latitude" name="new_latitude">
+            <input type="hidden" id="new_longitude" name="new_longitude">
+
+            <button type="submit" class="btn btn-success mt-3">Confirm Move</button>
+        </form>
+        {% else %}
+        <p>No available vehicles to move.</p>
+        {% endif %}
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            // Initialize the map
+            var map = L.map('map').setView([55.8642, -4.2518], 13); // Default centered around Glasgow
+
+            // Add OpenStreetMap tiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            // Variable to store the marker
+            var moveMarker;
+
+            // Handle vehicle selection
+            $('#vehicle_id').change(function () {
+                if (moveMarker) {
+                    map.removeLayer(moveMarker);
+                }
+                $('#new_latitude').val('');
+                $('#new_longitude').val('');
+            });
+
+            // Event listener for map clicks
+            map.on('click', function (e) {
+                var lat = e.latlng.lat;
+                var lng = e.latlng.lng;
+
+                // Update latitude and longitude hidden fields
+                $('#new_latitude').val(lat);
+                $('#new_longitude').val(lng);
+
+                // Add or update marker
+                if (moveMarker) {
+                    moveMarker.setLatLng(e.latlng);
+                } else {
+                    moveMarker = L.marker(e.latlng).addTo(map);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html> {% endcomment %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Move Vehicle</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #ff0000;">
+        <a class="navbar-brand" href="{% url 'operator_dashboard' %}">Electric Goose (Operator)</a>
+    </nav>
+
+    <div class="container mt-5">
+        <h2>Move a Vehicle</h2>
+
+        {% if vehicles %}
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="vehicle_id">Select Vehicle:</label>
+                <select class="form-control" id="vehicle_id" name="vehicle_id" required>
+                    <option value="">Select a Vehicle</option>
+                    {% for vehicle in vehicles %}
+                    <option value="{{ vehicle.vehicle_id }}">{{ vehicle.vehicle_name }} ({{ vehicle.vehicle_type }}) - Battery: {{ vehicle.battery }}%</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <h4 class="mt-4">Mark New Location</h4>
+            <div id="map" class="mb-4" style="height: 400px;"></div>
+
+            <input type="hidden" id="new_latitude" name="new_latitude">
+            <input type="hidden" id="new_longitude" name="new_longitude">
+
+            <button type="submit" class="btn btn-success mt-3">Confirm Move</button>
+        </form>
+        {% else %}
+        <p>No available vehicles to move.</p>
+        {% endif %}
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            var map = L.map('map').setView([55.8642, -4.2518], 13);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            var moveMarker;
+
+            $('#vehicle_id').change(function () {
+                if (moveMarker) {
+                    map.removeLayer(moveMarker);
+                }
+                $('#new_latitude').val('');
+                $('#new_longitude').val('');
+            });
+
+            map.on('click', function (e) {
+                var lat = e.latlng.lat;
+                var lng = e.latlng.lng;
+
+                $('#new_latitude').val(lat);
+                $('#new_longitude').val(lng);
+
+                if (moveMarker) {
+                    moveMarker.setLatLng(e.latlng);
+                } else {
+                    moveMarker = L.marker(e.latlng).addTo(map);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

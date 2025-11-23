@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElectricGoose - Contact Us</title>
+    <!-- Include Bootstrap CSS from CDN for faster prototyping -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+        body {
+            margin: 0;
+            overflow-x: hidden;
+            font-family: Verdana;
+        }
+
+        .navbar-default {
+            background-color: #455A64;
+            border: none;
+            box-shadow: none;
+            padding: 10px;
+        }
+
+        .navbar-default .navbar-brand {
+            color: #ffffff;
+            font-size: 20px;
+        }
+
+        .navbar-default .navbar-brand:hover,
+        .navbar-default .navbar-brand:focus {
+            color: #ffffff;
+        }
+
+        .navbar-default .navbar-nav>li>a {
+            color: #ffffff;
+        }
+
+        .navbar-default .navbar-nav>li>a:hover,
+        .navbar-default .navbar-nav>li>a:focus {
+            color: #ffffff;
+        }
+
+        .contact-header {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://www.topgear.com/sites/default/files/2022/03/TopGear%20-%20Tesla%20Model%20Y%20-%20003.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            color: #ffffff;
+            text-align: center;
+            padding-top: 100px;
+            margin-top: -20px;
+        }
+
+        .contact-header h1 {
+            font-size: 50px;
+            font-weight: 700;
+        }
+
+        .contact-header p {
+            font-size: 20px;
+        }
+
+        .contact-content {
+            padding: 60px 15px;
+        }
+
+        .contact-section {
+            margin-bottom: 40px;
+        }
+
+        .contact-section h2 {
+            color: #FF4000;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .contact-section p {
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer {
+            background-color: #455A64;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{% url 'landing_page' %}">ElectricGoose</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'about_us' %}">About</a></li>
+                    <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    <li><a href="{% url 'register' %}"><span class="glyphicon glyphicon-user"></span> Register</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contact Header Section -->
+    <div class="contact-header">
+        <h1>Contact ElectricGoose</h1>
+        <p>We're Here to Help You Glide Smoothly</p>
+    </div>
+
+    <!-- Contact Content Section -->
+    <div class="container contact-content">
+        <div class="contact-section">
+            <h2>Get in Touch</h2>
+            <p>If you have any questions, feedback, or concerns, feel free to reach out to us. Our team at ElectricGoose is always here to assist you and provide the information you need. Whether you're interested in our services, need support, or just want to say hello, we'd love to hear from you.</p>
+        </div>
+
+        <div class="contact-form">
+            <form action="#" method="post">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" class="form-control" id="name" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message:</label>
+                    <textarea class="form-control" id="message" rows="5" placeholder="Enter your message" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="container">
+            <p><strong>GOOSE W.L.L</strong></p>
+            <p>P.O. Box: 31839, Glasgow – UK</p>
+            <p>Tel. +44 1122334455, Mob: +44 7788991010, +44 66771199, +44 3344556677</p>
+            <p>Fax: +44 1122334455, Email: buisness@goose.com, Website: <a href="http://www.electricgoose.com" style="color: #ffffff;">www.electricgoose.com</a></p>
+        </div>
+    </footer>
+
+    <!-- Include jQuery and Bootstrap JavaScript from CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
+
