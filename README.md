@@ -10,6 +10,7 @@ Built collaboratively by:
 - [Prajwal Pawan Save](https://github.com/prajwalsave)
 - [Goutham Senthil](https://github.com/Goutham-Senthil)
 
+
 ## Features
 
 ### Multi-Role Access Control
@@ -81,6 +82,20 @@ python manage.py runserver
 ```
 
 App runs at: `http://127.0.0.1:8000/`
+
+## Demo Login Credentials (Default Test Accounts)
+
+### Customer Login
+Username: goutham1  
+Password: password1  
+
+### Operator Login
+Username: goutham2  
+Password: password1  
+
+### Manager Login
+Username: goutham3  
+Password: password1 
 
 
 ## Project Structure
