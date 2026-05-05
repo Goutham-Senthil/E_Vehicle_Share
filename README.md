@@ -90,6 +90,7 @@ App runs at: `http://127.0.0.1:8000/`
 ---
 
 ## Project Structure
+```bash
 e_vehicle_share/
 │
 ├── customers/          # Custom user model, vehicles, reservations, payments
@@ -101,7 +102,7 @@ e_vehicle_share/
 ├── manage.py
 ├── requirements.txt
 └── README.md
-
+```
 ---
 
 ## License
