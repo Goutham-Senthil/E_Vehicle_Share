@@ -10,8 +10,6 @@ Built collaboratively by:
 - [Prajwal Pawan Save](https://github.com/prajwalsave)
 - [Goutham Senthil](https://github.com/Goutham-Senthil)
 
----
-
 ## Features
 
 ### Multi-Role Access Control
@@ -33,8 +31,6 @@ Five Django apps with clean separation of concerns:
 - `landing_start` — authentication, registration, public pages
 - `e_vehicle_share` — core settings and URL routing
 
----
-
 ## Tech Stack
 
 | Layer | Technology |
@@ -44,7 +40,6 @@ Five Django apps with clean separation of concerns:
 | Database | SQLite (development) |
 | Auth | Custom AbstractBaseUser with role-based flags |
 
----
 
 ## Setup Instructions
 
@@ -87,7 +82,6 @@ python manage.py runserver
 
 App runs at: `http://127.0.0.1:8000/`
 
----
 
 ## Project Structure
 ```bash
@@ -103,10 +97,7 @@ e_vehicle_share/
 ├── requirements.txt
 └── README.md
 ```
----
 
 ## License
 
 MIT License — see [LICENSE.txt](LICENSE.txt)
-
----
