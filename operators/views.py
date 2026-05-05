@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from customers.decorators import role_required
 from customers.models import User, Vehicle, Reservation, Payment
 from django.utils import timezone
 import json
@@ -11,7 +12,7 @@ from django.http import HttpResponse
 from .models import Vehicle, ChargingRecord, MaintenanceRecord
 
 
-@login_required
+@role_required('is_operator')
 def operator_dashboard(request):
     # Fetch all vehicles assigned to the operator that are defective and not in use
     defective_vehicles = Vehicle.objects.filter(is_defective=True).exclude(reservation__status='In use')
@@ -24,7 +25,7 @@ def operator_dashboard(request):
     }
     return render(request, 'operators/dashboard.html', context)
 
-@login_required
+@role_required('is_operator')
 def repair_vehicle(request, vehicle_id):
     # Fetch the vehicle that matches the given vehicle_id
     vehicle = get_object_or_404(Vehicle, vehicle_id=vehicle_id)
@@ -46,7 +47,7 @@ def repair_vehicle(request, vehicle_id):
     # Redirect back to the operator dashboard after repair action
     return redirect('operator_dashboard')
 
-@login_required
+@role_required('is_operator')
 def charge_vehicle(request, vehicle_id):
     # Fetch the vehicle that matches the given vehicle_id
     vehicle = get_object_or_404(Vehicle, vehicle_id=vehicle_id)
@@ -83,7 +84,7 @@ def charge_vehicle(request, vehicle_id):
     return redirect('operator_dashboard')
 
 
-@login_required(login_url='login')
+@role_required('is_operator')
 def move_vehicle(request):
     if request.method == 'POST':
         vehicle_id = request.POST.get('vehicle_id')
@@ -107,7 +108,7 @@ def move_vehicle(request):
     vehicles = Vehicle.objects.all()
     return render(request, 'operators/move_vehicles.html', {'vehicles': vehicles})
 
-@login_required(login_url='login')
+@role_required('is_operator')
 def track_vehicle(request):
     # Fetch all vehicle data
     vehicles = Vehicle.objects.all()
@@ -143,7 +144,7 @@ def track_vehicle(request):
 
     return render(request, 'operators/track_vehicle.html', context)
 
-@login_required(login_url='login')
+@role_required('is_operator')
 def maintenance_record(request):
     # Fetch all maintenance records
     records = MaintenanceRecord.objects.all()
@@ -152,7 +153,7 @@ def maintenance_record(request):
     }
     return render(request, 'operators/maintenance_record.html', context)
 
-@login_required(login_url='login')
+@role_required('is_operator')
 def charge_record(request):
     # Fetch all charge records
     records = ChargingRecord.objects.all()

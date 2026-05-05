@@ -819,6 +819,7 @@
 # Imports
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from customers.decorators import role_required
 from django.utils import timezone
 from django.contrib import messages
 from django.urls import reverse
@@ -841,7 +842,7 @@ def decrease_battery(vehicle):
         time.sleep(1)  # 1 second interval
 
 # Customer dashboard view
-@login_required(login_url='login')
+@role_required('is_customer')
 def customer_dashboard(request):
     user = request.user
     reservations = Reservation.objects.filter(user=user, status="in use")
@@ -856,7 +857,7 @@ def customer_dashboard(request):
     return render(request, 'customers/dashboard.html', context)
 
 # View to rent a vehicle
-@login_required(login_url='login')
+@role_required('is_customer')
 def rent_vehicle(request):
     vehicles = Vehicle.objects.filter(is_available=True)
 
@@ -908,7 +909,7 @@ def rent_vehicle(request):
     return render(request, 'customers/rent.html', context)
 
 # View to return a rented vehicle
-@login_required(login_url='login')
+@role_required('is_customer')
 def return_vehicle(request):
     reservations = Reservation.objects.filter(user=request.user, status='In use')
 
@@ -985,7 +986,7 @@ def return_vehicle(request):
     return render(request, 'customers/return.html', context)
 
 # View to display pending payments
-@login_required
+@role_required('is_customer')
 def payments(request):
     user = request.user
     pending_payments = Payment.objects.filter(user=user, status='Pending')
@@ -995,7 +996,7 @@ def payments(request):
     return render(request, 'customers/payments.html', context)
 
 # View to make a payment for a specific transaction
-@login_required
+@role_required('is_customer')
 def make_payment(request, transaction_id):
     payment = get_object_or_404(Payment, pk=transaction_id, user=request.user)
     user = request.user
@@ -1014,7 +1015,7 @@ def make_payment(request, transaction_id):
     return redirect('payments')
 
 # View to add funds to user's balance
-@login_required
+@role_required('is_customer')
 def add_funds(request):
     if request.method == 'POST':
         amount = float(request.POST['amount'])
@@ -1027,7 +1028,7 @@ def add_funds(request):
     return render(request, 'customers/add_funds.html')
 
 # View to display transaction history
-@login_required(login_url='login')
+@role_required('is_customer')
 def transaction_history(request):
     user = request.user
     payments = Payment.objects.filter(user=user)
@@ -1037,7 +1038,7 @@ def transaction_history(request):
     return render(request, 'customers/transaction_history.html', context)
 
 # View to report an issue with a vehicle
-@login_required(login_url='login')
+@role_required('is_customer')
 def report_vehicle(request, reservation_id):
     try:
         reservation = Reservation.objects.get(pk=reservation_id, user=request.user, status='In use')

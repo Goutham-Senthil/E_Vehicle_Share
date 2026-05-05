@@ -67,6 +67,7 @@
 # Imports
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from customers.decorators import role_required
 from django.db.models import Count, Sum
 from customers.models import Vehicle, Reservation, Payment, Report, User
 from operators.models import MaintenanceRecord, ChargingRecord
@@ -74,7 +75,7 @@ from datetime import timedelta, datetime
 from django.utils import timezone
 
 # Manager dashboard view
-@login_required(login_url='login')
+@role_required('is_manager')
 def manager_dashboard(request):
     # Get start and end date from GET request, default to last week until now
     end_date_str = request.GET.get('end_date', timezone.now().date().isoformat())

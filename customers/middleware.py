@@ -1,4 +1,5 @@
 from django.utils.functional import SimpleLazyObject
+from django.contrib.auth.models import AnonymousUser
 from customers.models import User
 
 def get_user(request):
@@ -8,9 +9,9 @@ def get_user(request):
             try:
                 request._cached_user = User.objects.get(username=user_pk)
             except User.DoesNotExist:
-                request._cached_user = None
+                request._cached_user = AnonymousUser()
         else:
-            request._cached_user = None
+            request._cached_user = AnonymousUser()
     return request._cached_user
 
 class CustomAuthenticationMiddleware:
