@@ -139,6 +139,9 @@
     <!-- Registration Form Container -->
     <div class="container" id="register-form">
         <h2>Create an Account</h2>
+        {% if error_message %}
+            <div class="error-message">{{ error_message }}</div>
+        {% endif %}
         {% if messages %}
             {% for message in messages %}
                 <div class="error-message">{{ message }}</div>

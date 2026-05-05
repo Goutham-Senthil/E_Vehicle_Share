@@ -54,7 +54,6 @@ def charge_vehicle(request, vehicle_id):
     
     # Only proceed if the vehicle's battery is less than 100%
     if vehicle.battery == 0:
-
         vehicle.battery = 100
         vehicle.is_available = True
         vehicle.save()
@@ -68,8 +67,9 @@ def charge_vehicle(request, vehicle_id):
 
     elif vehicle.battery < 100:
         # Charge the vehicle to 100%
-        battery_charged =100-vehicle.battery
+        battery_charged = 100 - vehicle.battery
         vehicle.battery = 100
+        vehicle.is_available = True  # Ensure it's available after charging
         vehicle.save()
         
         # Record the charging action

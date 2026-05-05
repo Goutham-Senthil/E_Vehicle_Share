@@ -167,6 +167,12 @@ def register(request):
                 'error_message': "Username already exists."
             })
 
+        # Check if email already exists
+        if User.objects.filter(email=email).exists():
+            return render(request, 'landing_start/register.html', {
+                'error_message': "Email already exists."
+            })
+
         # Create a new user
         user = User.objects.create(
             username=username,

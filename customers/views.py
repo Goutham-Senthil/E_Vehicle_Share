@@ -859,7 +859,8 @@ def customer_dashboard(request):
 # View to rent a vehicle
 @role_required('is_customer')
 def rent_vehicle(request):
-    vehicles = Vehicle.objects.filter(is_available=True)
+    # Only show vehicles that are available, not defective, and have more than 5% battery
+    vehicles = Vehicle.objects.filter(is_available=True, is_defective=False, battery__gt=5)
 
     # Convert vehicle details to JSON for rendering on the front end
     vehicles_list = [

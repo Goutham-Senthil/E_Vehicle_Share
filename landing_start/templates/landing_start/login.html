@@ -139,6 +139,9 @@
     <!-- Login Form Container -->
     <div class="container" id="login-form">
         <h2>Welcome Back</h2>
+        {% if error_message %}
+            <div class="error-message">{{ error_message }}</div>
+        {% endif %}
         {% if messages %}
             {% for message in messages %}
                 <div class="error-message">{{ message }}</div>
