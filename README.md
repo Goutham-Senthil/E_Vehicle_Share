@@ -71,12 +71,19 @@ pip install -r requirements.txt
 python manage.py migrate
 ```
 
-### 5. Create a superuser (optional, for Django admin access)
+### 5. Seed the database (Recommended)
+To quickly populate the app with test users and a fleet of vehicles:
+```bash
+python seed_db.py
+```
+Refer to the [Test Credentials](#test-credentials) section below for login details.
+
+### 6. Create a superuser (optional)
 ```bash
 python manage.py createsuperuser
 ```
 
-### 6. Run the development server
+### 7. Run the development server
 ```bash
 python manage.py runserver
 ```
@@ -97,6 +104,47 @@ Password: password1
 Username: goutham3  
 Password: password1 
 
+
+## Testing
+
+The project uses `pytest-django` for automated testing.
+
+### Run full test suite:
+```bash
+pytest tests/test_suite.py -v
+```
+
+### CI/CD
+GitHub Actions is configured to run the test suite automatically on every push to `main`. See `.github/workflows/ci.yml`.
+
+---
+
+## Test Credentials
+
+If you ran `seed_db.py`, the following accounts are available (Password for all: `password123`):
+
+| Role | Username |
+| :--- | :--- |
+| **Manager** | `manager1` |
+| **Operator** | `operator1` |
+| **Customer** | `customer1` |
+| **Customer** | `customer2` |
+
+### Demo Login Credentials (Default Test Accounts)
+
+#### Customer Login
+- **Username**: `goutham1`
+- **Password**: `password1`
+
+#### Operator Login
+- **Username**: `goutham2`
+- **Password**: `password1`
+
+#### Manager Login
+- **Username**: `goutham3`
+- **Password**: `password1`
+
+---
 
 ## Project Structure
 ```bash
