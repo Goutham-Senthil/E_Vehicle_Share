@@ -1,119 +1,111 @@
-# E-Vehicle Share using Bootstrap
-A Django-based multi-role electric vehicle sharing system
+# E-Vehicle Share Platform
+
+A full-stack electric vehicle sharing and fleet management web application built with Django. Developed as a collaborative team project.
 
 ## Overview
-E-Vehicle Share is a full-stack web application built using Django that simulates a real-world electric vehicle rental and fleet management platform. It supports multiple user roles, operational workflows, and modular backend logic. This project demonstrates full-stack development, structured design, and practical experience with Python and Django.
+
+E-Vehicle Share simulates a real-world EV rental and fleet management platform with distinct workflows for three user roles: Customers, Operators, and Managers.
+
+Built collaboratively by:
+- [Prajwal Pawan Save](https://github.com/prajwalsave)
+- [Goutham Senthil](https://github.com/Goutham-Senthil)
+
+---
 
 ## Features
 
-### Multi-Role Access
-- Customers: browse vehicles, book rides, manage profiles  
-- Managers: oversee operations, supervisory control, fleet management  
-- Operators: update vehicle status, track availability, manage routine tasks  
+### Multi-Role Access Control
+- **Customers** — browse and book vehicles, manage reservations, make payments, report issues
+- **Operators** — update vehicle status, charge and repair vehicles, track availability
+- **Managers** — fleet analytics dashboard, utilisation metrics, revenue overview, battery distribution reports
 
 ### Vehicle Sharing System
-- View and manage available electric vehicles  
-- Reservation and booking flow  
-- Vehicle status and maintenance tracking  
+- Real-time vehicle availability and booking flow
+- Location tracking (lat/long) per vehicle
+- Hourly rate billing and payment settlement
+- Reservation lifecycle management (In Use → Completed)
 
-### Modular Architecture
-The platform is divided into multiple Django apps:
-- customers  
-- managers  
-- operators  
-- e_vehicle_share (core settings and URLs)  
-- landing_start  
+### Modular Django Architecture
+Five Django apps with clean separation of concerns:
+- `customers` — custom user model, vehicles, reservations, payments
+- `operators` — charging and maintenance records
+- `managers` — fleet analytics and reporting
+- `landing_start` — authentication, registration, public pages
+- `e_vehicle_share` — core settings and URL routing
 
-### Frontend and Backend Integration
-- Django Template System  
-- Clean URL routing  
-- SQLite database for development  
-- Admin interface for internal management  
-
-## Demo Login Credentials (Default Test Accounts)
-
-### Customer Login
-Username: goutham1  
-Password: password1  
-
-### Operator Login
-Username: goutham2  
-Password: password1  
-
-### Manager Login
-Username: goutham3  
-Password: password1  
+---
 
 ## Tech Stack
 
-### Backend
-- Python  
-- Django  
-- SQLite
+| Layer | Technology |
+|---|---|
+| Backend | Python, Django 4.2 |
+| Frontend | HTML, Django Templates, Bootstrap |
+| Database | SQLite (development) |
+| Auth | Custom AbstractBaseUser with role-based flags |
 
-### Frontend
-- HTML  
-- Django Templates
-
-### Development Tools
-- GitHub Desktop  
-- Visual Studio Code  
-- Python virtual environments  
-
-## Folder Structure
-
-```
-e_vehicle_share/
-│
-├── customers/             
-├── managers/              
-├── operators/             
-├── e_vehicle_share/       
-├── landing_start/         
-│
-├── manage.py              
-├── .gitignore             
-└── db.sqlite3
-```
+---
 
 ## Setup Instructions
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/Goutham-Senthil/e_vehicle_share
-cd e_vehicle_share
+git clone https://github.com/prajwalsave/E_Vehicle_Share.git
+cd E_Vehicle_Share
 ```
-### 2. Create a virtual environment
+
+### 2. Create and activate a virtual environment
 ```bash
+# Windows
 python -m venv venv
-```
-
-### 3. Activate the environment
-
-Windows:
-```bash
 venv\Scripts\activate
-```
-Mac/Linux:
-```bash
+
+# Mac/Linux
+python -m venv venv
 source venv/bin/activate
 ```
 
-### 4. Install dependencies
-
+### 3. Install dependencies
 ```bash
 pip install -r requirements.txt
 ```
-### 5. Apply migrations
+
+### 4. Apply migrations
 ```bash
 python manage.py migrate
 ```
-### 6. Start the development server
+
+### 5. Create a superuser (optional, for Django admin access)
+```bash
+python manage.py createsuperuser
+```
+
+### 6. Run the development server
 ```bash
 python manage.py runserver
 ```
-App will run on:
-```bash
-http://127.0.0.1:8000/
-```
 
+App runs at: `http://127.0.0.1:8000/`
+
+---
+
+## Project Structure
+e_vehicle_share/
+│
+├── customers/          # Custom user model, vehicles, reservations, payments
+├── managers/           # Fleet analytics and management dashboard
+├── operators/          # Vehicle charging and maintenance workflows
+├── landing_start/      # Auth, registration, landing pages
+├── e_vehicle_share/    # Core settings, URL routing
+│
+├── manage.py
+├── requirements.txt
+└── README.md
+
+---
+
+## License
+
+MIT License — see [LICENSE.txt](LICENSE.txt)
+
+---
